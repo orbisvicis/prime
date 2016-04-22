@@ -20,6 +20,8 @@ minipos = {x=1, y=1}
 setwindowtitle ("Pesky Reticulans, Improvements, Moar Everything")
 defaultmode (modeTiles)
 
+menuF3 = true
+menuBracket = false
 menuCtrlM = false
 
 musicvolume (0)
@@ -34,14 +36,25 @@ function findpc ()
   minimapon = is_minimap_on ()
   end
 
-function ismenukey (ev)
-  if ev.type == evKeyDown and ev.symbol == SDLK_F3 then
+function ismenukey(ev)
+  if menuF3 and ev.type == evKeyDown and iskey(ev, KEYS.F3) then
     return true
-  elseif ev.type == evKeyDown and ev.symbol == SDLK_LALT then
-    alt_state (1)
-  elseif ev.type == evKeyUp and ev.symbol == SDLK_LALT then
-    alt_state (0)
+  elseif menuBracket and ev.type == evKeyDown and ev.keycode == 29 then
+    return true
+  elseif menuBracket and ev.type == evKeyConsole and ev.char == 29 then
+    return true
+  elseif menuCtrlM and ev.type == evKeyDown and iskey(ev, KEYS.m) and ctrlpressed() then
+    return true
     end
+  -- TODO: this should go somewhere better
+  if ev.type == evKeyDown and ev.keycode == SDLK.LALT then
+    alt_state (1)
+    maptocopy = true
+  elseif ev.type == evKeyUp and ev.keycode == SDLK.LALT then
+    alt_state (0)
+    maptocopy = true
+    end
+  return false
   end
 
 function minimapoff()
