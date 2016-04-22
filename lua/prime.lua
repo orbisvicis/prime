@@ -128,8 +128,7 @@ function readcache (x, y)
 
 function tileat (x, y)
   if not TilesPNG then
-    --TilesPNG = loadimage (gfxdir.."primetiles.png")
-    TilesPNG = loadimage ("gfx/primetiles.png")
+    TilesPNG = loadimage (gfxdir.."primetiles.png")
     TilesKey = getpixel (TilesPNG, 0, 0)
     TilesTab = { }
     ffid = freeformparam (1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)
