@@ -1,0 +1,4 @@
+[submodule "noteye"]
+	path = noteye
+	url = https://github.com/orbisvicis/noteye
+	branch = master
