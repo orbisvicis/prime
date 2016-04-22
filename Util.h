@@ -23,6 +23,12 @@ extern char IsVowelLookupTable [256];
 int mini (int x, int y);
 int maxi (int x, int y);
 
+int path_join_v (char *, size_t, int, va_list);
+int path_join (char *, size_t, ...);
+int path_join_check (char *, size_t, ...);
+int path_terminate (char *, size_t, char const *);
+int path_terminate_check (char *, size_t, char const *);
+
 #define SHBUFLEN 256
 
 char *GetBuf ();
