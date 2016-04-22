@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "NEUI.h"
+#include "Util.h"
 #include "Hero.h"
 #include "Effect.h"
 
@@ -164,8 +165,21 @@ gamecore (lua_State *ls)
 
 shNotEyeInterface::shNotEyeInterface (int argc, char **argv)
 {
+    char UserDirTerminated[PRIME_PATH_LENGTH];
+    char DataDirTerminated[PRIME_PATH_LENGTH];
+
+    if (path_terminate_check(UserDirTerminated, PRIME_PATH_LENGTH, UserDir) ||
+        path_terminate_check(DataDirTerminated, PRIME_PATH_LENGTH, DATADIR)) {
+        exitPRIME(-1);
+    }
+
     noteye::noteye_args (argc, argv);
     noteye::noteye_init ();
+
+    // Lua never keeps pointers to external objects - scope
+    // isn't an issue as the following variables are copied.
+    noteye::noteye_globalstr ("noteyedir", DataDirTerminated);
+    noteye::noteye_globalstr ("userdir", UserDirTerminated);
 
     noteye::noteye_globalfun ("map_contents", mapcontents);
     noteye::noteye_globalfun ("minimap", minimap);
