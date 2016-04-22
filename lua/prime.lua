@@ -44,6 +44,21 @@ function ismenukey (ev)
     end
   end
 
+function minimapoff()
+  -- is the minimap off?
+  return
+    (not mapon) or
+    -- externally disabled by PRIME
+    (not minimapon) or
+    -- yes, it is off
+    minimode == 0 or
+    -- minimode is the same as mode, so ignore (except modeTiles, which means zoom,
+    -- and modeFPP, which means rear mirror)
+    (minimode == mode and minimode ~= modeTiles and minimode ~= modeFPP) or
+    -- modeBlock is useless in both modeASCII and modeMini
+    (minimode == modeBlock and (mode == modeASCII or mode == modeMini))
+  end
+
 function xminimap (C, x, y)
   local color = minimap (x, y)
   return tilefill (vgaget (color))
@@ -90,7 +105,7 @@ function readcache (x, y)
     CachedTiles = { }
     end
   local id = x + y * 64
-  if not CachedTiles[id] then 
+  if not CachedTiles[id] then
     return tilefill (0)
     end
   return CachedTiles[id]
@@ -107,7 +122,7 @@ function tileat (x, y)
     ffid = freeformparam (1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)
     end
   local id = x + y * 40
-  if not TilesTab[id] then 
+  if not TilesTab[id] then
     -- low and high harcoded for version 2.1
     local low = 5
     local high = low + 26 + 25
